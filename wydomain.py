@@ -66,7 +66,7 @@ def start_wydomain(domain):
 			
 			# 开始逐个处理FOFA域名查询的结果信息
 			for subdomain in fofa_result['partner'][pdomain]['domains']:
-				 wydomains['domain'][pdomain][subdomain] = get_a_record(subdomain)
+				wydomains['domain'][pdomain][subdomain] = get_a_record(subdomain)
 			for ipaddr in fofa_result['partner'][pdomain]['ipaddrs']:
 				ipaddr = ipaddr.split('.')
 				ipaddr[-1] = '0/24'
@@ -326,13 +326,13 @@ def start_wydomain(domain):
 
 	# 生成数据可视化页面
 	html_content = gender_domian_view(wydomains)
-	filepath = './report/result_%s.html' % domain
+	filepath = './report/%s.html' % domain
 	try:
-		file_object = open(filepath, 'w')
+		file_object = open(filepath, 'a+')
 		file_object.writelines(html_content)
 		file_object.close()
 	except Exception, e:
-		return "error"
+		return "error",e
 	finally:
 		print '-' * 50
 		print "* Report is generated"
@@ -344,6 +344,12 @@ def start_wydomain(domain):
 if __name__ == "__main__":
 	if len(sys.argv) == 2:
 		print start_wydomain(sys.argv[1])
+		sys.exit(0)
+	elif len(sys.argv) == 3:
+		for domain_list in open(sys.argv[2],'r+'):
+			domain_list=domain_list.strip('\r\n')
+			print domain_list
+			print start_wydomain(domain_list)
 		sys.exit(0)
 	else:
 		print ("usage: %s domain" % sys.argv[0])

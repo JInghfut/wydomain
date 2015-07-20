@@ -315,7 +315,6 @@ def start_wydomain(domain):
 						ip2domain_result = ip2domain_start(ip_c_block)
 						for ipaddress in ip2domain_result.keys():
 							wydomains['ipaddress'][ip_c_block][ipaddress] = ip2domain_result[ipaddress]
-
 	# 生成数据时，将MX、NS、SOA项去重
 	for mx_domain in wydomains['mx'].keys():
 		wydomains['mx'][mx_domain] = list(set(wydomains['mx'][mx_domain]))
@@ -323,8 +322,9 @@ def start_wydomain(domain):
 		wydomains['dns'][dns_domain] = list(set(wydomains['dns'][dns_domain]))
 	for soa_domain in wydomains['soa'].keys():
 		wydomains['soa'][soa_domain] = list(set(wydomains['soa'][soa_domain]))
-
 	# 生成数据可视化页面
+	for subdomain in wydomains['domain'][domain].keys():
+		print subdomain
 	html_content = gender_domian_view(wydomains)
 	filepath = './report/%s.html' % domain
 	try:

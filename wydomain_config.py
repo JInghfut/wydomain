@@ -56,6 +56,8 @@ dns_whitelist = [
 	'hichina.com',
 	'360safe.com',
 	'iidns.com',
+	'paul.ns.cloudflare.com',
+	'zara.ns.cloudflare.com',
 ]
 
 

@@ -27,15 +27,11 @@ def crawl_chinaz_url():
                 f.write("\n")
 def check_url(domain):
     httpurl="http://"+domain
-    #httpsurl="https://"+domain
     try:
         httpresp = requests.head(httpurl)
-        #httpsresp = requests.head(httpsurl)
         if httpresp.status_code == 200:
             return True
-        #elif httpsresp.status_code == 200:
-        #    return True
         else:
             return False
-    finally:
+    except:
         return False

@@ -333,7 +333,7 @@ def start_wydomain(domain):
 			print domain
 			print subdomain_list
 			if check_url(subdomain_list):
-				ip=socket.gethostbyname('www.wgxzz.com')
+				ip=socket.gethostbyname(subdomain_list)
 				conn = pymongo.Connection(host='127.0.0.1',port=27017)
 				db = conn['secscan']
 				obj_id=db.domain.insert({"domains":domain,"subdomain":subdomain_list,"ip":ip})

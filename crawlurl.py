@@ -30,7 +30,7 @@ def check_url(domain):
     httpurl="http://"+domain
     httpsurl="https://"+domain
     httpresp = requests.head(httpurl)
-    httpsresp=requests.head(httpsurl)
+    httpsresp = requests.head(httpsurl)
     if httpresp.status_code == 200:
         return True
     elif httpsresp.status_code == 200:

@@ -37,14 +37,15 @@ import sys
 import subprocess
 import time
 import re
+import pymongo
+import socket
 from dnsfunc import *
 from fofaplugin import start_fofa_plugin
 from wysubdomain import wy_subdomain_run
 from wydomain_ip2domain import ip2domain_start
 from split_domain import gender_domian_view
-from topchinazurl import check_url
+from crawlurl import check_url
 #from mongo_util import MongodbUtil
-import pymongo
 
 
 def start_wydomain(domain):
@@ -332,9 +333,10 @@ def start_wydomain(domain):
 			print domain
 			print subdomain_list
 			if check_url(subdomain_list):
+				ip=socket.gethostbyname('www.wgxzz.com')
 				conn = pymongo.Connection(host='127.0.0.1',port=27017)
 				db = conn['secscan']
-				obj_id=db.domain.insert({"subdomain":subdomain_list,"domains":domain})
+				obj_id=db.domain.insert({"domains":domain,"subdomain":subdomain_list,"ip":ip})
 				if not obj_id:
 					break
 	# 生成数据可视化页面

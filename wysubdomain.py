@@ -22,6 +22,7 @@ from dnsfunc import *
 from mysubdomain import get_subdomain_run
 from dnsdic import bruteforce_subdomain
 
+
 def wy_subdomain_run(domain):
 	wydomains = {
 		'domain': {
@@ -40,7 +41,7 @@ def wy_subdomain_run(domain):
 		# 清除掉末尾的.
 		sub_domain = subdomain.rstrip('.')
 		# 处理二级子域名
-		wydomains['domain'][domain][sub_domain] = {'a':[],'cname':[]}
+		wydomains['domain'][domain][sub_domain] = {'a': [], 'cname': []}
 		# 处理子域名对应的IP
 		wydomains['domain'][domain][sub_domain]['a'] = brute_record[subdomain]
 		brute_ipaddress.extend(brute_record[subdomain])
@@ -71,10 +72,11 @@ def wy_subdomain_run(domain):
 
 	return wydomains
 
+
 if __name__ == "__main__":
-   if len(sys.argv) == 2:
-      print wy_subdomain_run(sys.argv[1])
-      sys.exit(0)
-   else:
-       print ("usage: %s domain" % sys.argv[0])
-       sys.exit(-1)
+	if len(sys.argv) == 2:
+		print wy_subdomain_run(sys.argv[1])
+		sys.exit(0)
+	else:
+		print ("usage: %s domain" % sys.argv[0])
+		sys.exit(-1)

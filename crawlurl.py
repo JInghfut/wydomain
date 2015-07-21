@@ -14,7 +14,6 @@ def crawl_chinaz_url():
         hxs = Selector(text=data)
         pagenum=''.join(hxs.xpath('//span[@class="status"]/text()').extract())
         pagenum=int(re.sub('(.*)/',"",pagenum))
-        #print type(pagenum)
         for i in range(1,pagenum+1):
             targetUrl = "http://top.chinaz.com/list.aspx?p=%d" % i +"&baidu=%d" % rank_num
             req = urllib2.Request(targetUrl)

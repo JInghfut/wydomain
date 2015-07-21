@@ -332,16 +332,14 @@ def start_wydomain(domain):
 		for subdomain_list in wydomains['domain'][domain].keys():
 			if check_domain_whitelist(subdomain_list):
 				continue
-			# else:
-			# 	print domain
-			# 	print subdomain_list
-			if check_url(subdomain_list):
-				ip=socket.gethostbyname(subdomain_list)
-				conn = pymongo.Connection(host='127.0.0.1',port=27017)
-				db = conn['secscan']
-				obj_id=db.domain.insert({"domains":domain,"subdomain":subdomain_list,"ip":ip})
-				if not obj_id:
-					break
+			else:
+				if check_url(subdomain_list):
+					ip=socket.gethostbyname(subdomain_list)
+					conn = pymongo.Connection(host='127.0.0.1',port=27017)
+					db = conn['secscan']
+					obj_id=db.domain.insert({"domains":domain,"subdomain":subdomain_list,"ip":ip})
+					if not obj_id:
+						break
 	# 生成数据可视化页面
 	html_content = gender_domian_view(wydomains)
 	filepath = './report/%s.html' % domain

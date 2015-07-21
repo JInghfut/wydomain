@@ -333,6 +333,7 @@ def start_wydomain(domain):
 			if check_domain_whitelist(subdomain_list):
 				continue
 			else:
+				print subdomain_list
 				if check_url(subdomain_list):
 					ip=socket.gethostbyname(subdomain_list)
 					conn = pymongo.Connection(host='127.0.0.1',port=27017)

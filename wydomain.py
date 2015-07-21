@@ -42,6 +42,10 @@ from fofaplugin import start_fofa_plugin
 from wysubdomain import wy_subdomain_run
 from wydomain_ip2domain import ip2domain_start
 from split_domain import gender_domian_view
+from topchinazurl import check_url
+#from mongo_util import MongodbUtil
+import pymongo
+
 
 def start_wydomain(domain):
 	# 初始化全局数据
@@ -322,9 +326,18 @@ def start_wydomain(domain):
 		wydomains['dns'][dns_domain] = list(set(wydomains['dns'][dns_domain]))
 	for soa_domain in wydomains['soa'].keys():
 		wydomains['soa'][soa_domain] = list(set(wydomains['soa'][soa_domain]))
+	#写数据库
+	for domain in wydomains['domain'].keys():
+		for subdomain_list in wydomains['domain'][domain].keys():
+			print domain
+			print subdomain_list
+			if check_url(subdomain_list):
+				conn = pymongo.Connection(host='127.0.0.1',port=27017)
+				db = conn['secscan']
+				obj_id=db.domain.insert({"subdomain":subdomain_list,"domains":domain})
+				if not obj_id:
+					break
 	# 生成数据可视化页面
-	for subdomain in wydomains['domain'][domain].keys():
-		print subdomain
 	html_content = gender_domian_view(wydomains)
 	filepath = './report/%s.html' % domain
 	try:

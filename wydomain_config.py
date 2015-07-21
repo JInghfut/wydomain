@@ -6,7 +6,6 @@
 '''
 	wydomain 定义项
 '''
-
 trust_name = ( 'admin', 'adm', 'www', 'mail', 'email', 'webmail', 'exchange', 'bbs', 'forum', 'forums', 'blog', 'home', 'cache', 'chat', 'connect', 'console', 'contact', 'core', 'code', 'conf', 'customer', 'crm', 'oa', 'vpn', 'owa', 'demo', 'dev', 'devel', 'dhcp', 'desktop', 'help', 'helpdesk', 'it', 'dns', 'doc', 'docs', 'en', 'edu', 'fax', 'file', 'firewall', 'ftp', 'fw', 'git', 'game', 'svn', 'gw', 'gateway', 'gate', 'host', 'id', 'ids', 'account', 'im', 'rtx', 'intra', 'internet', 'job', 'jobs', 'lab', 'labs', 'live', 'list', 'local', 'login', 'log', 'logs', 'main', 'manage', 'member', 'members', 'mobile', 'm', 'monitor', 'my', 'new', 'news', 'auth', 'old', 'open', 's', 'search', 'pop3', 'smtp', 'pptp', 'project', 'projects', 'proxy', 'pub', 'public', 'reg', 'remote', 'sslvpn', 'test', 'update', 'user', 'users', 'i', 'u', 'zimbra' )
 
 # 轮训DNS服务器，确保服务可用，以及返回的结果全球化
@@ -59,5 +58,20 @@ dns_whitelist = [
 	'paul.ns.cloudflare.com',
 	'zara.ns.cloudflare.com',
 ]
-
+domain_whitelist = [
+	'dnspod.net',
+	'dnsv3.com',
+	'dnsv2.com',
+	'xinnet.com',
+	'hichina.com',
+	'360safe.com',
+	'iidns.com',
+	'cloudflare.com',
+	'qq.com',
+	'163.com',
+	'google.com',
+	'sohu.com',
+	'taobao.com',
+	'sina.com'
+]
 

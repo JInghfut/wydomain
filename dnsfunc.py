@@ -32,7 +32,7 @@ def check_whitelist(varname):
 	return False
 def check_domain_whitelist(varname):
 	for whiteline in domain_whitelist:
-		if whiteline in varname:
+		if varname.endswith(whiteline):
 			return True
 	return False
 def is_zone_transfer_vul(server, domain):

@@ -65,7 +65,7 @@ def gender_exist_list(pre_domain):
 		not_exist_domain['ipaddress'].extend(resolver_res['a'])
 
 # 暴力穷举二级域名
-def bruteforce_subdomain(domain, dictname='domain_default.csv'):
+def bruteforce_subdomain(domain, dictname='domain_larger.csv'):
 	
 	# 生成不存在域名列表
 	gender_exist_list(domain)

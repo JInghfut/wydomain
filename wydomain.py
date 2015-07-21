@@ -330,8 +330,11 @@ def start_wydomain(domain):
 	#写数据库
 	for domain in wydomains['domain'].keys():
 		for subdomain_list in wydomains['domain'][domain].keys():
-			print domain
-			print subdomain_list
+			if check_domain_whitelist(subdomain_list):
+				continue
+			# else:
+			# 	print domain
+			# 	print subdomain_list
 			if check_url(subdomain_list):
 				ip=socket.gethostbyname(subdomain_list)
 				conn = pymongo.Connection(host='127.0.0.1',port=27017)

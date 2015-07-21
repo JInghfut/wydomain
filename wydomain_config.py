@@ -72,6 +72,8 @@ domain_whitelist = [
 	'google.com',
 	'sohu.com',
 	'taobao.com',
-	'sina.com'
+	'sina.com',
+	'360.com',
+	'tmall.com'
 ]
 

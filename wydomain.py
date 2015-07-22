@@ -338,7 +338,7 @@ def start_wydomain(domain):
 					ip = socket.gethostbyname(subdomain_list)
 					#conn = pymongo.MongoClient(host='127.0.0.1', port=20001)
 					conn=MongoClient(host='127.0.0.1', port=20001)
-					db = conn['secscan']
+					db = conn.secscan
 					obj_id = db.domain.insert({"domains": domain, "subdomain": subdomain_list, "ip": ip})
 					if not obj_id:
 						break

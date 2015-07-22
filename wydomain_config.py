@@ -2,11 +2,15 @@
 # encoding: utf-8
 # author: @ringzero
 # email: ringzero@0x557.org
-
+import pymongo
 '''
 	wydomain 定义项
 '''
 trust_name = ( 'admin', 'adm', 'www', 'mail', 'email', 'webmail', 'exchange', 'bbs', 'forum', 'forums', 'blog', 'home', 'cache', 'chat', 'connect', 'console', 'contact', 'core', 'code', 'conf', 'customer', 'crm', 'oa', 'vpn', 'owa', 'demo', 'dev', 'devel', 'dhcp', 'desktop', 'help', 'helpdesk', 'it', 'dns', 'doc', 'docs', 'en', 'edu', 'fax', 'file', 'firewall', 'ftp', 'fw', 'git', 'game', 'svn', 'gw', 'gateway', 'gate', 'host', 'id', 'ids', 'account', 'im', 'rtx', 'intra', 'internet', 'job', 'jobs', 'lab', 'labs', 'live', 'list', 'local', 'login', 'log', 'logs', 'main', 'manage', 'member', 'members', 'mobile', 'm', 'monitor', 'my', 'new', 'news', 'auth', 'old', 'open', 's', 'search', 'pop3', 'smtp', 'pptp', 'project', 'projects', 'proxy', 'pub', 'public', 'reg', 'remote', 'sslvpn', 'test', 'update', 'user', 'users', 'i', 'u', 'zimbra' )
+
+#数据库
+conn = pymongo.Connection(host='127.0.0.1',port=20001)
+db = conn['secscan']
 
 # 轮训DNS服务器，确保服务可用，以及返回的结果全球化
 dns_server = {

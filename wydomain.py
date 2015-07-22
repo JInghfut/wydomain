@@ -37,7 +37,7 @@ import sys
 import subprocess
 import time
 import re
-import pymongo
+from pymongo import *
 import socket
 from dnsfunc import *
 from fofaplugin import start_fofa_plugin
@@ -45,12 +45,12 @@ from wysubdomain import wy_subdomain_run
 from wydomain_ip2domain import ip2domain_start
 from split_domain import gender_domian_view
 from crawlurl import check_url
-#from mongo_util import MongodbUtil
+# from mongo_util import MongodbUtil
 
 
 def start_wydomain(domain):
 	# 初始化全局数据
-	wydomains = {'domain': {},'ipaddress': {}, 'dns': {}, 'mx': {}, 'soa': {}}
+	wydomains = {'domain': {}, 'ipaddress': {}, 'dns': {}, 'mx': {}, 'soa': {}}
 
 	print '-' * 50
 	print '* Starting fofa plugin search'
@@ -68,7 +68,7 @@ def start_wydomain(domain):
 			wydomains['dns'][pdomain] = []
 			wydomains['mx'][pdomain] = []
 			wydomains['soa'][pdomain] = []
-			
+
 			# 开始逐个处理FOFA域名查询的结果信息
 			for subdomain in fofa_result['partner'][pdomain]['domains']:
 				wydomains['domain'][pdomain][subdomain] = get_a_record(subdomain)
@@ -97,11 +97,11 @@ def start_wydomain(domain):
 				# 处理 A 记录 & CNAME 记录
 				for a_record_line in ns_result['zone']['a']:
 					subdomain = a_record_line[0]
-					wydomains['domain'][pdomain][subdomain] = {'a':[],'cname':[]}
+					wydomains['domain'][pdomain][subdomain] = {'a': [], 'cname': []}
 
 				for cname_record_line in ns_result['zone']['cname']:
 					subdomain = cname_record_line[0]
-					wydomains['domain'][pdomain][subdomain] = {'a':[],'cname':[]}
+					wydomains['domain'][pdomain][subdomain] = {'a': [], 'cname': []}
 
 				for a_record_line in ns_result['zone']['a']:
 					subdomain = a_record_line[0]
@@ -143,16 +143,16 @@ def start_wydomain(domain):
 						ipaddr[-1] = '0/24'
 						ipaddr = '.'.join(ipaddr)
 						wydomains['ipaddress'][ipaddr] = {}
-				
-				# 生成一个子域名的IP地址，继续处理其它域名，获得更多的IP，再统一递归查询
-				# # 进入IP地址转换成C段，并查询整个C段IP绑定列表
-				# for ip_c_block in wydomains['ipaddress']:
-				# 	if not check_ip_whitelist(ip_c_block):
-				# 		ip2domain_result = ip2domain_start(ip_c_block)
-				# 		for ipaddress in ip2domain_result.keys():
-				# 			wydomains['ipaddress'][ip_c_block][ipaddress] = ip2domain_result[ipaddress]
 
-				# 处理完毕，等待数据可视化后处理 wydomains 数组
+					# 生成一个子域名的IP地址，继续处理其它域名，获得更多的IP，再统一递归查询
+					# # 进入IP地址转换成C段，并查询整个C段IP绑定列表
+					# for ip_c_block in wydomains['ipaddress']:
+					# 	if not check_ip_whitelist(ip_c_block):
+					# 		ip2domain_result = ip2domain_start(ip_c_block)
+					# 		for ipaddress in ip2domain_result.keys():
+					# 			wydomains['ipaddress'][ip_c_block][ipaddress] = ip2domain_result[ipaddress]
+
+					# 处理完毕，等待数据可视化后处理 wydomains 数组
 
 			# 不存在域传送漏洞，用暴力穷举+第三方API查询的方式做处理
 			else:
@@ -224,11 +224,11 @@ def start_wydomain(domain):
 				# 处理 A 记录 & CNAME 记录
 				for a_record_line in ns_result['zone']['a']:
 					subdomain = a_record_line[0]
-					wydomains['domain'][domain][subdomain] = {'a':[],'cname':[]}
+					wydomains['domain'][domain][subdomain] = {'a': [], 'cname': []}
 
 				for cname_record_line in ns_result['zone']['cname']:
 					subdomain = cname_record_line[0]
-					wydomains['domain'][domain][subdomain] = {'a':[],'cname':[]}
+					wydomains['domain'][domain][subdomain] = {'a': [], 'cname': []}
 
 				for a_record_line in ns_result['zone']['a']:
 					subdomain = a_record_line[0]
@@ -279,7 +279,7 @@ def start_wydomain(domain):
 						for ipaddress in ip2domain_result.keys():
 							wydomains['ipaddress'][ip_c_block][ipaddress] = ip2domain_result[ipaddress]
 
-				# 处理完毕，等待数据可视化后处理 wydomains 数组
+						# 处理完毕，等待数据可视化后处理 wydomains 数组
 
 			# 不存在域传送漏洞，用暴力穷举+第三方API查询的方式做处理
 			else:
@@ -327,7 +327,7 @@ def start_wydomain(domain):
 		wydomains['dns'][dns_domain] = list(set(wydomains['dns'][dns_domain]))
 	for soa_domain in wydomains['soa'].keys():
 		wydomains['soa'][soa_domain] = list(set(wydomains['soa'][soa_domain]))
-	#写数据库
+	# 写数据库
 	for domain in wydomains['domain'].keys():
 		for subdomain_list in wydomains['domain'][domain].keys():
 			if check_domain_whitelist(subdomain_list):
@@ -335,10 +335,11 @@ def start_wydomain(domain):
 			else:
 				print subdomain_list
 				if check_url(subdomain_list):
-					ip=socket.gethostbyname(subdomain_list)
-					conn = pymongo.Connection(host='127.0.0.1',port=20001)
+					ip = socket.gethostbyname(subdomain_list)
+					#conn = pymongo.MongoClient(host='127.0.0.1', port=20001)
+					conn=MongoClient(host='127.0.0.1', port=20001)
 					db = conn['secscan']
-					obj_id=db.domain.insert({"domains":domain,"subdomain":subdomain_list,"ip":ip})
+					obj_id = db.domain.insert({"domains": domain, "subdomain": subdomain_list, "ip": ip})
 					if not obj_id:
 						break
 	# 生成数据可视化页面
@@ -349,22 +350,23 @@ def start_wydomain(domain):
 		file_object.writelines(html_content)
 		file_object.close()
 	except Exception, e:
-		return "error",e
+		return "error", e
 	finally:
 		print '-' * 50
 		print "* Report is generated"
 		print '-' * 50
-		# file_object.close()
+	# file_object.close()
 
 	return wydomains
+
 
 if __name__ == "__main__":
 	if len(sys.argv) == 2:
 		print start_wydomain(sys.argv[1])
 		sys.exit(0)
 	elif len(sys.argv) == 3:
-		for domain_list in open(sys.argv[2],'r+'):
-			domain_list=domain_list.strip('\r\n')
+		for domain_list in open(sys.argv[2], 'r+'):
+			domain_list = domain_list.strip('\r\n')
 			print domain_list
 			print start_wydomain(domain_list)
 		sys.exit(0)

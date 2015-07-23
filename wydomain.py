@@ -335,7 +335,10 @@ def start_wydomain(domain):
 			else:
 				print subdomain_list
 				if check_url(subdomain_list):
-					ip = socket.gethostbyname(subdomain_list)
+					try:
+						ip = socket.gethostbyname(subdomain_list)
+					except:
+						continue
 					#conn = pymongo.MongoClient(host='127.0.0.1', port=20001)
 					conn=MongoClient(host='127.0.0.1', port=20001)
 					db = conn.secscan

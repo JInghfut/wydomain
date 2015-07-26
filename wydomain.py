@@ -55,7 +55,11 @@ def start_wydomain(domain):
 	print '-' * 50
 	print '* Starting fofa plugin search'
 	print '-' * 50
-	fofa_result = start_fofa_plugin(domain)
+
+	try:
+		fofa_result = start_fofa_plugin(domain)
+	except:
+		pass
 
 	# 检查是否拥有兄弟域名
 	if len(fofa_result['partner']) > 1:

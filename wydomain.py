@@ -59,7 +59,7 @@ def start_wydomain(domain):
 	try:
 		fofa_result = start_fofa_plugin(domain)
 	except:
-		fofa_result={}
+		fofa_result={'partner':'','status': False, 'info': 'server down or options error'}
 
 	# 检查是否拥有兄弟域名
 	if len(fofa_result['partner']) > 1:
